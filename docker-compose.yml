@@ -1,0 +1,58 @@
+services:
+  shortify:
+    container_name: shortify
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./src/assets:/app/assets
+      - ./.env:/app/.env
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - HOST_URI=${HOST_URI}
+      - ADMIN_USER=${ADMIN_USER}
+      - ADMIN_PASS=${ADMIN_PASS}
+    depends_on:
+      - mysql
+    networks:
+      - shortify
+
+  mysql:
+    image: mysql:8.0.31
+    container_name: shortify-mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    command: --sql_mode= --default-authentication-plugin=mysql_native_password
+    networks:
+      - shortify
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: shortify-phpmyadmin
+    restart: always
+    ports:
+      - "81:80"
+    environment:
+      - PMA_ARBITRARY=0
+      - APACHE_PORT=80
+      - PMA_HOST=${DB_HOST}
+      - UPLOAD_LIMIT=100000000
+    networks:
+      - shortify
+
+networks:
+  shortify:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/24
+          gateway: 10.0.0.1
