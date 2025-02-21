@@ -1,0 +1,17 @@
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+CREATE TABLE `links` (
+  `index` int NOT NULL,
+  `url` text NOT NULL,
+  `short` varchar(100) NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+ALTER TABLE `links`
+  ADD PRIMARY KEY (`index`);
+
+ALTER TABLE `links`
+  MODIFY `index` int NOT NULL AUTO_INCREMENT;
+COMMIT;
