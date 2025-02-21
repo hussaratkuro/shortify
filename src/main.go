@@ -52,7 +52,7 @@ func adminAuth(w http.ResponseWriter, r *http.Request) bool {
 	user, pass, ok := r.BasicAuth()
 
 	if !ok || user != adminUser || pass != adminPass {
-		w.Header().Set("WWW-Authenticate", fmt.Sprintf(`Basic realm="%s"`))
+		w.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return false
 	}
