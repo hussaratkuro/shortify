@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" class="h-screen" style="color-scheme: dark; text-align: center; font-family: Poppins, sans;">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Shortify</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="icon" href="./imgs/favicon.png" type="image/png" sizes="32x32">
+</head>
+
+<body>
+	<h1>{{ .Header }}</h1>
+	<form id="linkForm" method="POST" action="/shortify">
+		<div class="input" tabindex="0">
+			<input class="shortify" type="text" placeholder="Enter link" name="url" aria-label="URL">
+			<button class="shortify-button" type="submit">Shorten</button>
+		</div>
+	</form>
+
+	<div id="result" style="display: none;">
+		<h3 class="result"></h3>
+		<button id="copyButton" class="shortify-button" style="display: none;">Copy</button>
+	</div>
+
+	<script src="js/main.js"></script>
+</body>
+
+</html>

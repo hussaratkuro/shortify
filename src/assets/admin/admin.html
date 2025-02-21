@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Shortify | Admin Panel</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="icon" href="/imgs/favicon.png" type="image/png" sizes="32x32">
+</head>
+
+<body>
+	<h1>Shortify Admin Panel</h1>
+	<div class="back">
+		<a href="/"><span aria-hidden="true">←</span> Back to home</a>
+	</div>
+	<center>
+		<table class="admin-table">
+			<tr>
+				<th>ID</th>
+				<th>URL</th>
+				<th>Short</th>
+				<th>Date</th>
+				<th>Action</th>
+			</tr>
+			{{range .Links}}
+			<tr>
+				<td>{{.ID}}</td>
+				<td>{{.URL}}</td>
+				<td>
+					<a href="javascript:void(0);" onclick="copyToClipboard('{{.Short}}')">{{.Short}}</a>
+				</td>
+				<td>{{.Date}}</td>
+				<td>
+					<form action="/admin/delete" method="POST" onsubmit="return confirm('Are you sure?');">
+						<input type="hidden" name="id" value="{{.ID}}">
+						<button type="submit">Delete</button>
+					</form>
+				</td>
+			</tr>
+			{{end}}
+		</table>
+	</center>
+	<script>
+		function copyToClipboard(text) {
+			navigator.clipboard.writeText(text)
+				.then(function () {
+					alert("Copied: " + text);
+				})
+				.catch(function (err) {
+					alert("Error copying text: " + err);
+				});
+		}
+	</script>
+</body>
+
+</html>
