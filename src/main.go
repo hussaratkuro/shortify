@@ -77,7 +77,9 @@ func adminHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	defer rows.Close()
 
 	var links []Link
+
 	for rows.Next() {
+
 		var l Link
 		var t time.Time
 	
@@ -88,6 +90,7 @@ func adminHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	
 		l.Date = t.Format("2006-01-02 15:04:05")
 		links = append(links, l)
+
 	}
 
 	adminTmpl, err := template.ParseFiles("./assets/admin/admin.html")
@@ -172,12 +175,16 @@ func main() {
 	defer db.Close()
 
 	maxRetries := 10
+
 	for i := 0; i < maxRetries; i++ {
+
 		if err = db.Ping(); err == nil {
 			break
 		}
+
 		log.Printf("Waiting for database... (%d/%d): %v", i+1, maxRetries, err)
 		time.Sleep(2 * time.Second)
+
 	}
 
 	if err != nil {
@@ -244,6 +251,7 @@ func main() {
 		shortURL = fmt.Sprintf("http://%s/%s", host, id)
 
 		_, err = db.Exec("INSERT INTO links (url, short) VALUES (?, ?)", originalURL, shortURL)
+
 		if err != nil {
 			http.Error(w, "Database insert error", http.StatusInternalServerError)
 			return
